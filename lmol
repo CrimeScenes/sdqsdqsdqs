@@ -272,6 +272,16 @@ local function handleShootingMode()
     end
 end
 
+-- Detect player's jump and perform the shooting action
+LocalPlayer.CharacterAdded:Connect(function(character)
+    local humanoid = character:WaitForChild("Humanoid")
+    humanoid.Jumping:Connect(function(isJumping)
+        if isJumping and isToggled then
+            TriggerBotAction()
+        end
+    end)
+end)
+
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
     if not gameProcessed and input.KeyCode == getgenv().Forbidden.TriggerBot.Keybinds.Shoot then
         handleShootingMode()
@@ -291,6 +301,7 @@ RunService.RenderStepped:Connect(function()
         TriggerBotAction()
     end
 end)
+
 
 
 
